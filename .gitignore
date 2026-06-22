@@ -1,0 +1,12 @@
+.dotnet-home/
+.dotnet-cli/
+.nuget/
+bin/
+obj/
+.vs/
+TestResults/
+artifacts/
+*.user
+*.suo
+*.sln
+*.slnx
