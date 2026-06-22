@@ -38,6 +38,18 @@ public static class DependencyInjection
             httpClient.BaseAddress = new Uri(options.BaseUrl);
         });
 
+        services.AddHttpClient<IOAuthScopesClient, OAuthScopesClient>((serviceProvider, httpClient) =>
+        {
+            var options = serviceProvider.GetRequiredService<IOptions<SecurityClientOptions>>().Value;
+            httpClient.BaseAddress = new Uri(options.BaseUrl);
+        });
+
+        services.AddHttpClient<IOAuthClientsClient, OAuthClientsClient>((serviceProvider, httpClient) =>
+        {
+            var options = serviceProvider.GetRequiredService<IOptions<SecurityClientOptions>>().Value;
+            httpClient.BaseAddress = new Uri(options.BaseUrl);
+        });
+
         services.AddHttpClient<IRolesClient, RolesClient>((serviceProvider, httpClient) =>
         {
             var options = serviceProvider.GetRequiredService<IOptions<SecurityClientOptions>>().Value;

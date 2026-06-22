@@ -30,6 +30,18 @@ public sealed class RolesClient : ExternalRestClientBase, IRolesClient
     {
     }
 
+    public async Task<ResponseBase<IReadOnlyCollection<RoleResponse>>> GetAllAsync(
+        string applicationCode,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(applicationCode);
+
+        return await GetAsync<ResponseBase<IReadOnlyCollection<RoleResponse>>>(
+                   $"{ApplicationsEndpoint}/{Uri.EscapeDataString(applicationCode)}/roles",
+                   cancellationToken)
+               ?? throw new InvalidOperationException("The API response could not be deserialized to ResponseBase<IReadOnlyCollection<RoleResponse>>.");
+    }
+
     public async Task<ResponseBase<RoleResponse>> CreateAsync(
         string applicationCode,
         CreateRoleRequest request,
@@ -41,6 +53,37 @@ public sealed class RolesClient : ExternalRestClientBase, IRolesClient
         return await PostAsync<CreateRoleRequest, ResponseBase<RoleResponse>>(
                    $"{ApplicationsEndpoint}/{Uri.EscapeDataString(applicationCode)}/roles",
                    request,
+                   cancellationToken)
+               ?? throw CreateEmptyResponseException();
+    }
+
+    public async Task<ResponseBase<RoleResponse>> UpdateAsync(
+        string applicationCode,
+        string code,
+        UpdateRoleRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(applicationCode);
+        ArgumentException.ThrowIfNullOrWhiteSpace(code);
+        ArgumentNullException.ThrowIfNull(request);
+
+        return await PutAsync<UpdateRoleRequest, ResponseBase<RoleResponse>>(
+                   $"{ApplicationsEndpoint}/{Uri.EscapeDataString(applicationCode)}/roles/{Uri.EscapeDataString(code)}",
+                   request,
+                   cancellationToken)
+               ?? throw CreateEmptyResponseException();
+    }
+
+    public async Task<ResponseBase<RoleResponse>> DeleteAsync(
+        string applicationCode,
+        string code,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(applicationCode);
+        ArgumentException.ThrowIfNullOrWhiteSpace(code);
+
+        return await DeleteAsync<ResponseBase<RoleResponse>>(
+                   $"{ApplicationsEndpoint}/{Uri.EscapeDataString(applicationCode)}/roles/{Uri.EscapeDataString(code)}",
                    cancellationToken)
                ?? throw CreateEmptyResponseException();
     }

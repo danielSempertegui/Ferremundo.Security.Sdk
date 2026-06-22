@@ -30,6 +30,18 @@ public sealed class PermissionsClient : ExternalRestClientBase, IPermissionsClie
     {
     }
 
+    public async Task<ResponseBase<IReadOnlyCollection<PermissionResponse>>> GetAllAsync(
+        string applicationCode,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(applicationCode);
+
+        return await GetAsync<ResponseBase<IReadOnlyCollection<PermissionResponse>>>(
+                   $"{ApplicationsEndpoint}/{Uri.EscapeDataString(applicationCode)}/permissions",
+                   cancellationToken)
+               ?? throw new InvalidOperationException("The API response could not be deserialized to ResponseBase<IReadOnlyCollection<PermissionResponse>>.");
+    }
+
     public async Task<ResponseBase<PermissionResponse>> CreateAsync(
         string applicationCode,
         CreatePermissionRequest request,
@@ -41,6 +53,37 @@ public sealed class PermissionsClient : ExternalRestClientBase, IPermissionsClie
         return await PostAsync<CreatePermissionRequest, ResponseBase<PermissionResponse>>(
                    $"{ApplicationsEndpoint}/{Uri.EscapeDataString(applicationCode)}/permissions",
                    request,
+                   cancellationToken)
+               ?? throw new InvalidOperationException("The API response could not be deserialized to ResponseBase<PermissionResponse>.");
+    }
+
+    public async Task<ResponseBase<PermissionResponse>> UpdateAsync(
+        string applicationCode,
+        string code,
+        UpdatePermissionRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(applicationCode);
+        ArgumentException.ThrowIfNullOrWhiteSpace(code);
+        ArgumentNullException.ThrowIfNull(request);
+
+        return await PutAsync<UpdatePermissionRequest, ResponseBase<PermissionResponse>>(
+                   $"{ApplicationsEndpoint}/{Uri.EscapeDataString(applicationCode)}/permissions/{Uri.EscapeDataString(code)}",
+                   request,
+                   cancellationToken)
+               ?? throw new InvalidOperationException("The API response could not be deserialized to ResponseBase<PermissionResponse>.");
+    }
+
+    public async Task<ResponseBase<PermissionResponse>> DeleteAsync(
+        string applicationCode,
+        string code,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(applicationCode);
+        ArgumentException.ThrowIfNullOrWhiteSpace(code);
+
+        return await DeleteAsync<ResponseBase<PermissionResponse>>(
+                   $"{ApplicationsEndpoint}/{Uri.EscapeDataString(applicationCode)}/permissions/{Uri.EscapeDataString(code)}",
                    cancellationToken)
                ?? throw new InvalidOperationException("The API response could not be deserialized to ResponseBase<PermissionResponse>.");
     }

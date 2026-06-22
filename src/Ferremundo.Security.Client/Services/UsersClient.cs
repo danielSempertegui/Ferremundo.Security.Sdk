@@ -30,6 +30,15 @@ public sealed class UsersClient : ExternalRestClientBase, IUsersClient
     {
     }
 
+    public async Task<ResponseBase<IReadOnlyCollection<SecurityUserResponse>>> GetAllAsync(
+        CancellationToken cancellationToken = default)
+    {
+        return await GetAsync<ResponseBase<IReadOnlyCollection<SecurityUserResponse>>>(
+                   UsersEndpoint,
+                   cancellationToken)
+               ?? throw new InvalidOperationException("The API response could not be deserialized to ResponseBase<IReadOnlyCollection<SecurityUserResponse>>.");
+    }
+
     public async Task<ResponseBase<SecurityUserResponse>> RegisterAdUserAsync(
         RegisterAdUserRequest request,
         CancellationToken cancellationToken = default)
@@ -39,6 +48,33 @@ public sealed class UsersClient : ExternalRestClientBase, IUsersClient
         return await PostAsync<RegisterAdUserRequest, ResponseBase<SecurityUserResponse>>(
                    $"{UsersEndpoint}/ad",
                    request,
+                   cancellationToken)
+               ?? throw CreateEmptyResponseException();
+    }
+
+    public async Task<ResponseBase<SecurityUserResponse>> UpdateAsync(
+        string userName,
+        UpdateSecurityUserRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(userName);
+        ArgumentNullException.ThrowIfNull(request);
+
+        return await PutAsync<UpdateSecurityUserRequest, ResponseBase<SecurityUserResponse>>(
+                   $"{UsersEndpoint}/{Uri.EscapeDataString(userName)}",
+                   request,
+                   cancellationToken)
+               ?? throw CreateEmptyResponseException();
+    }
+
+    public async Task<ResponseBase<SecurityUserResponse>> DeleteAsync(
+        string userName,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(userName);
+
+        return await DeleteAsync<ResponseBase<SecurityUserResponse>>(
+                   $"{UsersEndpoint}/{Uri.EscapeDataString(userName)}",
                    cancellationToken)
                ?? throw CreateEmptyResponseException();
     }

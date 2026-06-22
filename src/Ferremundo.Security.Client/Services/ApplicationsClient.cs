@@ -30,6 +30,15 @@ public sealed class ApplicationsClient : ExternalRestClientBase, IApplicationsCl
     {
     }
 
+    public async Task<ResponseBase<IReadOnlyCollection<SecurityApplicationResponse>>> GetAllAsync(
+        CancellationToken cancellationToken = default)
+    {
+        return await GetAsync<ResponseBase<IReadOnlyCollection<SecurityApplicationResponse>>>(
+                   ApplicationsEndpoint,
+                   cancellationToken)
+               ?? throw new InvalidOperationException("The API response could not be deserialized to ResponseBase<IReadOnlyCollection<SecurityApplicationResponse>>.");
+    }
+
     public async Task<ResponseBase<SecurityApplicationResponse>> CreateAsync(
         CreateSecurityApplicationRequest request,
         CancellationToken cancellationToken = default)
@@ -39,6 +48,33 @@ public sealed class ApplicationsClient : ExternalRestClientBase, IApplicationsCl
         return await PostAsync<CreateSecurityApplicationRequest, ResponseBase<SecurityApplicationResponse>>(
                    ApplicationsEndpoint,
                    request,
+                   cancellationToken)
+               ?? throw CreateEmptyResponseException();
+    }
+
+    public async Task<ResponseBase<SecurityApplicationResponse>> UpdateAsync(
+        string code,
+        UpdateSecurityApplicationRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(code);
+        ArgumentNullException.ThrowIfNull(request);
+
+        return await PutAsync<UpdateSecurityApplicationRequest, ResponseBase<SecurityApplicationResponse>>(
+                   $"{ApplicationsEndpoint}/{Uri.EscapeDataString(code)}",
+                   request,
+                   cancellationToken)
+               ?? throw CreateEmptyResponseException();
+    }
+
+    public async Task<ResponseBase<SecurityApplicationResponse>> DeleteAsync(
+        string code,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(code);
+
+        return await DeleteAsync<ResponseBase<SecurityApplicationResponse>>(
+                   $"{ApplicationsEndpoint}/{Uri.EscapeDataString(code)}",
                    cancellationToken)
                ?? throw CreateEmptyResponseException();
     }
