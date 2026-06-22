@@ -1,3 +1,5 @@
+using Ferremundo.Security.Contracts.Permissions.Responses;
+
 namespace Ferremundo.Security.Contracts.OAuthClients.Responses;
 
 public sealed class OAuthClientResponse
@@ -21,6 +23,8 @@ public sealed class OAuthClientResponse
     public IReadOnlyCollection<string> PostLogoutRedirectUris { get; init; } = [];
 
     public IReadOnlyCollection<string> AllowedScopes { get; init; } = [];
+
+    public IReadOnlyCollection<PermissionResponse> Permissions { get; init; } = [];
 
     public string Status { get; init; } = string.Empty;
 

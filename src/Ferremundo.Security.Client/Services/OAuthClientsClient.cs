@@ -58,6 +58,21 @@ public sealed class OAuthClientsClient : ExternalRestClientBase, IOAuthClientsCl
                ?? throw CreateEmptyResponseException();
     }
 
+    public async Task<ResponseBase<OAuthClientResponse>> AssignPermissionAsync(
+        string clientId,
+        AssignPermissionToOAuthClientRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(clientId);
+        ArgumentNullException.ThrowIfNull(request);
+
+        return await PutAsync<AssignPermissionToOAuthClientRequest, ResponseBase<OAuthClientResponse>>(
+                   $"{OAuthClientsEndpoint}/{Uri.EscapeDataString(clientId)}/permissions",
+                   request,
+                   cancellationToken)
+               ?? throw CreateEmptyResponseException();
+    }
+
     private static ExternalRestClientOptions BuildExternalRestClientOptions(SecurityClientOptions options)
     {
         ArgumentNullException.ThrowIfNull(options);

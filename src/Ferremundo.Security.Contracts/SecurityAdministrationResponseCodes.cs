@@ -22,4 +22,5 @@ public static class SecurityAdministrationResponseCodes
     public const string OAuthClientCreated = "SECURITY_OAUTH_CLIENT_CREATED";
     public const string OAuthClientUpdated = "SECURITY_OAUTH_CLIENT_UPDATED";
     public const string OAuthClientDeleted = "SECURITY_OAUTH_CLIENT_DELETED";
+    public const string PermissionAssignedToOAuthClient = "SECURITY_PERMISSION_ASSIGNED_TO_OAUTH_CLIENT";
 }

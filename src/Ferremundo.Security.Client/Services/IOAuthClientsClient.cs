@@ -20,4 +20,9 @@ public interface IOAuthClientsClient
         CancellationToken cancellationToken = default);
 
     Task<ResponseBase<OAuthClientResponse>> DeleteAsync(string clientId, CancellationToken cancellationToken = default);
+
+    Task<ResponseBase<OAuthClientResponse>> AssignPermissionAsync(
+        string clientId,
+        AssignPermissionToOAuthClientRequest request,
+        CancellationToken cancellationToken = default);
 }
