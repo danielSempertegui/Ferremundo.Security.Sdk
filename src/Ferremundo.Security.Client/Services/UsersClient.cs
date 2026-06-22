@@ -3,24 +3,24 @@ using Ferremundo.Integrations.Rest.Abstractions.Correlation;
 using Ferremundo.Integrations.Rest.Configuration;
 using Ferremundo.Security.Client.Authentication;
 using Ferremundo.Security.Client.Configuration;
-using Ferremundo.Security.Contracts.Applications.Requests;
-using Ferremundo.Security.Contracts.Applications.Responses;
 using Ferremundo.Security.Contracts.Common;
+using Ferremundo.Security.Contracts.Users.Requests;
+using Ferremundo.Security.Contracts.Users.Responses;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Ferremundo.Security.Client.Services;
 
-public sealed class ApplicationsClient : ExternalRestClientBase, IApplicationsClient
+public sealed class UsersClient : ExternalRestClientBase, IUsersClient
 {
-    private const string ApplicationsEndpoint = "/api/v1/applications";
+    private const string UsersEndpoint = "/api/v1/users";
 
-    public ApplicationsClient(
+    public UsersClient(
         HttpClient httpClient,
         IOptions<SecurityClientOptions> options,
         ISecurityClientAuthenticationStrategy authenticationStrategy,
         IExternalCorrelationProvider correlationProvider,
-        ILogger<ApplicationsClient> logger)
+        ILogger<UsersClient> logger)
         : base(
             httpClient,
             BuildExternalRestClientOptions(options.Value),
@@ -30,27 +30,42 @@ public sealed class ApplicationsClient : ExternalRestClientBase, IApplicationsCl
     {
     }
 
-    public async Task<ResponseBase<SecurityApplicationResponse>> CreateAsync(
-        CreateSecurityApplicationRequest request,
+    public async Task<ResponseBase<SecurityUserResponse>> RegisterAdUserAsync(
+        RegisterAdUserRequest request,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        return await PostAsync<CreateSecurityApplicationRequest, ResponseBase<SecurityApplicationResponse>>(
-                   ApplicationsEndpoint,
+        return await PostAsync<RegisterAdUserRequest, ResponseBase<SecurityUserResponse>>(
+                   $"{UsersEndpoint}/ad",
                    request,
                    cancellationToken)
                ?? throw CreateEmptyResponseException();
     }
 
-    public async Task<ResponseBase<SecurityApplicationResponse>> GetByCodeAsync(
-        string code,
+    public async Task<ResponseBase<SecurityUserResponse>> GetByUserNameAsync(
+        string userName,
         CancellationToken cancellationToken = default)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(code);
+        ArgumentException.ThrowIfNullOrWhiteSpace(userName);
 
-        return await GetAsync<ResponseBase<SecurityApplicationResponse>>(
-                   $"{ApplicationsEndpoint}/{Uri.EscapeDataString(code)}",
+        return await GetAsync<ResponseBase<SecurityUserResponse>>(
+                   $"{UsersEndpoint}/{Uri.EscapeDataString(userName)}",
+                   cancellationToken)
+               ?? throw CreateEmptyResponseException();
+    }
+
+    public async Task<ResponseBase<SecurityUserResponse>> AssignRoleAsync(
+        string userName,
+        AssignUserRoleRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(userName);
+        ArgumentNullException.ThrowIfNull(request);
+
+        return await PutAsync<AssignUserRoleRequest, ResponseBase<SecurityUserResponse>>(
+                   $"{UsersEndpoint}/{Uri.EscapeDataString(userName)}/roles",
+                   request,
                    cancellationToken)
                ?? throw CreateEmptyResponseException();
     }
@@ -71,5 +86,5 @@ public sealed class ApplicationsClient : ExternalRestClientBase, IApplicationsCl
     }
 
     private static InvalidOperationException CreateEmptyResponseException()
-        => new("The API response could not be deserialized to ResponseBase<SecurityApplicationResponse>.");
+        => new("The API response could not be deserialized to ResponseBase<SecurityUserResponse>.");
 }

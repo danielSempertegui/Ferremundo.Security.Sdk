@@ -32,6 +32,24 @@ public static class DependencyInjection
             httpClient.BaseAddress = new Uri(options.BaseUrl);
         });
 
+        services.AddHttpClient<IPermissionsClient, PermissionsClient>((serviceProvider, httpClient) =>
+        {
+            var options = serviceProvider.GetRequiredService<IOptions<SecurityClientOptions>>().Value;
+            httpClient.BaseAddress = new Uri(options.BaseUrl);
+        });
+
+        services.AddHttpClient<IRolesClient, RolesClient>((serviceProvider, httpClient) =>
+        {
+            var options = serviceProvider.GetRequiredService<IOptions<SecurityClientOptions>>().Value;
+            httpClient.BaseAddress = new Uri(options.BaseUrl);
+        });
+
+        services.AddHttpClient<IUsersClient, UsersClient>((serviceProvider, httpClient) =>
+        {
+            var options = serviceProvider.GetRequiredService<IOptions<SecurityClientOptions>>().Value;
+            httpClient.BaseAddress = new Uri(options.BaseUrl);
+        });
+
         return services;
     }
 }
