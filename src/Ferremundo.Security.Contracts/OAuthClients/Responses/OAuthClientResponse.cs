@@ -16,6 +16,10 @@ public sealed class OAuthClientResponse
 
     public bool AllowRefreshTokens { get; init; }
 
+    public bool AllowMultipleActiveUserSessions { get; init; }
+
+    public int UserSessionLifetimeMinutes { get; init; }
+
     public bool HasClientSecret { get; init; }
 
     public IReadOnlyCollection<string> RedirectUris { get; init; } = [];

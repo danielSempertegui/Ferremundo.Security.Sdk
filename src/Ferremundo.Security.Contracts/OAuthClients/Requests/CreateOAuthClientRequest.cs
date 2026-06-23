@@ -20,6 +20,11 @@ public sealed class CreateOAuthClientRequest
 
     public bool AllowRefreshTokens { get; init; }
 
+    public bool AllowMultipleActiveUserSessions { get; init; } = true;
+
+    [Range(5, 43200)]
+    public int UserSessionLifetimeMinutes { get; init; } = 480;
+
     public IReadOnlyCollection<string> RedirectUris { get; init; } = [];
 
     public IReadOnlyCollection<string> PostLogoutRedirectUris { get; init; } = [];
