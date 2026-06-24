@@ -24,4 +24,7 @@ public static class SecurityAdministrationResponseCodes
     public const string OAuthClientDeleted = "SECURITY_OAUTH_CLIENT_DELETED";
     public const string PermissionAssignedToOAuthClient = "SECURITY_PERMISSION_ASSIGNED_TO_OAUTH_CLIENT";
     public const string SessionRevoked = "SECURITY_SESSION_REVOKED";
+    public const string NavigationItemCreated = "SECURITY_NAVIGATION_ITEM_CREATED";
+    public const string NavigationItemUpdated = "SECURITY_NAVIGATION_ITEM_UPDATED";
+    public const string NavigationItemDeleted = "SECURITY_NAVIGATION_ITEM_DELETED";
 }
