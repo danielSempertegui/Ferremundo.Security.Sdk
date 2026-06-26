@@ -16,9 +16,17 @@ public sealed class OAuthClientResponse
 
     public bool AllowRefreshTokens { get; init; }
 
+    public bool AllowTokenIntrospection { get; init; }
+
     public bool AllowMultipleActiveUserSessions { get; init; }
 
     public int UserSessionLifetimeMinutes { get; init; }
+
+    public int? AccessTokenLifetimeMinutes { get; init; }
+
+    public int? RefreshTokenLifetimeMinutes { get; init; }
+
+    public int? AuthorizationCodeLifetimeMinutes { get; init; }
 
     public bool HasClientSecret { get; init; }
 
