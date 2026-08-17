@@ -26,6 +26,12 @@ public static class DependencyInjection
             .Validate(options => !string.IsNullOrWhiteSpace(options.BaseUrl), "SecurityClient:BaseUrl is required.")
             .ValidateOnStart();
 
+        services.AddHttpClient<IAuthenticationClient, AuthenticationClient>((serviceProvider, httpClient) =>
+        {
+            var options = serviceProvider.GetRequiredService<IOptions<SecurityClientOptions>>().Value;
+            httpClient.BaseAddress = new Uri(options.BaseUrl);
+        });
+
         services.AddHttpClient<IApplicationsClient, ApplicationsClient>((serviceProvider, httpClient) =>
         {
             var options = serviceProvider.GetRequiredService<IOptions<SecurityClientOptions>>().Value;
@@ -39,6 +45,12 @@ public static class DependencyInjection
         });
 
         services.AddHttpClient<INavigationItemsClient, NavigationItemsClient>((serviceProvider, httpClient) =>
+        {
+            var options = serviceProvider.GetRequiredService<IOptions<SecurityClientOptions>>().Value;
+            httpClient.BaseAddress = new Uri(options.BaseUrl);
+        });
+
+        services.AddHttpClient<IMeClient, MeClient>((serviceProvider, httpClient) =>
         {
             var options = serviceProvider.GetRequiredService<IOptions<SecurityClientOptions>>().Value;
             httpClient.BaseAddress = new Uri(options.BaseUrl);
