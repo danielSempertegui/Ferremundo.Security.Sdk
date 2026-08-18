@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Ferremundo.Security.Contracts\Ferremundo.Security.Contracts.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="7.5.0" />
+    <PackageReference Include="OpenIddict.Validation.SystemNetHttp" Version="7.5.0" />
+  </ItemGroup>
+</Project>
