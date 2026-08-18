@@ -1,8 +1,20 @@
 using Ferremundo.Integrations.Rest;
-using Ferremundo.Security.Client.Abstractions;
+using Ferremundo.Security.Client.Abstractions.Authentication;
+using Ferremundo.Security.Client.Abstractions.Tokens;
 using Ferremundo.Security.Client.Authentication;
+using Ferremundo.Security.Client.Clients.Applications;
+using Ferremundo.Security.Client.Clients.Authentication;
+using Ferremundo.Security.Client.Clients.Me;
+using Ferremundo.Security.Client.Clients.Navigation;
+using Ferremundo.Security.Client.Clients.OAuthClients;
+using Ferremundo.Security.Client.Clients.OAuthScopes;
+using Ferremundo.Security.Client.Clients.Permissions;
+using Ferremundo.Security.Client.Clients.Roles;
+using Ferremundo.Security.Client.Clients.Sessions;
+using Ferremundo.Security.Client.Clients.Tokens;
+using Ferremundo.Security.Client.Clients.Users;
 using Ferremundo.Security.Client.Configuration;
-using Ferremundo.Security.Client.Services;
+using Ferremundo.Security.Client.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -16,15 +28,24 @@ public static class DependencyInjection
     {
         services.AddExternalRestSupport();
         services.AddHttpContextAccessor();
+        services.AddMemoryCache();
 
         services.TryAddScoped<ISecurityAccessTokenProvider, CurrentRequestAccessTokenProvider>();
+        services.TryAddScoped<ISecurityClientCredentialsTokenProvider, SecurityClientCredentialsTokenProvider>();
         services.TryAddScoped<ISecurityClientAuthenticationStrategy, SecurityClientAuthenticationStrategy>();
 
         services
             .AddOptions<SecurityClientOptions>()
             .Bind(configuration.GetSection(SecurityClientOptions.SectionName))
             .Validate(options => !string.IsNullOrWhiteSpace(options.BaseUrl), "SecurityClient:BaseUrl is required.")
+            .Validate(options => options.TokenCacheExpirationSkewSeconds >= 0, "SecurityClient:TokenCacheExpirationSkewSeconds must be zero or greater.")
             .ValidateOnStart();
+
+        services.AddHttpClient<ISecurityTokenClient, SecurityTokenClient>((serviceProvider, httpClient) =>
+        {
+            var options = serviceProvider.GetRequiredService<IOptions<SecurityClientOptions>>().Value;
+            httpClient.BaseAddress = new Uri(options.BaseUrl);
+        });
 
         services.AddHttpClient<IAuthenticationClient, AuthenticationClient>((serviceProvider, httpClient) =>
         {

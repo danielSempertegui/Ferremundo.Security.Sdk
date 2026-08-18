@@ -1,4 +1,4 @@
-using Ferremundo.Security.Client.Abstractions;
+using Ferremundo.Security.Client.Abstractions.Authentication;
 using Microsoft.AspNetCore.Http;
 
 namespace Ferremundo.Security.Client.Authentication;

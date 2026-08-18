@@ -3,24 +3,23 @@ using Ferremundo.Integrations.Rest.Abstractions.Correlation;
 using Ferremundo.Integrations.Rest.Configuration;
 using Ferremundo.Security.Client.Authentication;
 using Ferremundo.Security.Client.Configuration;
-using Ferremundo.Security.Contracts.Authentication.Requests;
-using Ferremundo.Security.Contracts.Authentication.Responses;
 using Ferremundo.Security.Contracts.Common;
+using Ferremundo.Security.Contracts.Me.Responses;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Ferremundo.Security.Client.Services;
+namespace Ferremundo.Security.Client.Clients.Me;
 
-public sealed class AuthenticationClient : ExternalRestClientBase, IAuthenticationClient
+public sealed class MeClient : ExternalRestClientBase, IMeClient
 {
-    private const string AuthEndpoint = "/api/v1/auth";
+    private const string MeEndpoint = "/api/v1/me";
 
-    public AuthenticationClient(
+    public MeClient(
         HttpClient httpClient,
         IOptions<SecurityClientOptions> options,
         ISecurityClientAuthenticationStrategy authenticationStrategy,
         IExternalCorrelationProvider correlationProvider,
-        ILogger<AuthenticationClient> logger)
+        ILogger<MeClient> logger)
         : base(
             httpClient,
             BuildExternalRestClientOptions(options.Value),
@@ -30,27 +29,19 @@ public sealed class AuthenticationClient : ExternalRestClientBase, IAuthenticati
     {
     }
 
-    public async Task<ResponseBase<LoginResponse>> LoginAsync(
-        LoginRequest request,
+    public async Task<ResponseBase<MeContextResponse>> GetContextAsync(
+        Guid applicationId,
         CancellationToken cancellationToken = default)
     {
-        ArgumentNullException.ThrowIfNull(request);
+        if (applicationId == Guid.Empty)
+        {
+            throw new ArgumentException("The application id is required.", nameof(applicationId));
+        }
 
-        return await PostAsync<LoginRequest, ResponseBase<LoginResponse>>(
-                   $"{AuthEndpoint}/login",
-                   request,
+        return await GetAsync<ResponseBase<MeContextResponse>>(
+                   $"{MeEndpoint}/context?applicationId={Uri.EscapeDataString(applicationId.ToString())}",
                    cancellationToken)
-               ?? throw new InvalidOperationException("The API response could not be deserialized to ResponseBase<LoginResponse>.");
-    }
-
-    public async Task<ResponseBase<LogoutResponse>> LogoutAsync(
-        CancellationToken cancellationToken = default)
-    {
-        return await PostAsync<object, ResponseBase<LogoutResponse>>(
-                   $"{AuthEndpoint}/logout",
-                   new { },
-                   cancellationToken)
-               ?? throw new InvalidOperationException("The API response could not be deserialized to ResponseBase<LogoutResponse>.");
+               ?? throw new InvalidOperationException("The API response could not be deserialized to ResponseBase<MeContextResponse>.");
     }
 
     private static ExternalRestClientOptions BuildExternalRestClientOptions(SecurityClientOptions options)

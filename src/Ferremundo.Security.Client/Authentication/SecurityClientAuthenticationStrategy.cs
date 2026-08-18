@@ -1,5 +1,5 @@
 using Ferremundo.Integrations.Rest.Authentication;
-using Ferremundo.Security.Client.Abstractions;
+using Ferremundo.Security.Client.Abstractions.Authentication;
 
 namespace Ferremundo.Security.Client.Authentication;
 

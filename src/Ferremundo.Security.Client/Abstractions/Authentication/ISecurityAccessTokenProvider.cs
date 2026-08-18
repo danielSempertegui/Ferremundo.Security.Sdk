@@ -1,4 +1,4 @@
-namespace Ferremundo.Security.Client.Abstractions;
+namespace Ferremundo.Security.Client.Abstractions.Authentication;
 
 public interface ISecurityAccessTokenProvider
 {

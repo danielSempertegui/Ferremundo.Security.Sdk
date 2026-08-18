@@ -2,7 +2,7 @@ using Ferremundo.Security.Contracts.Common;
 using Ferremundo.Security.Contracts.Navigation.Requests;
 using Ferremundo.Security.Contracts.Navigation.Responses;
 
-namespace Ferremundo.Security.Client.Services;
+namespace Ferremundo.Security.Client.Clients.Navigation;
 
 public interface INavigationItemsClient
 {

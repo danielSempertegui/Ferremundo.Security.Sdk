@@ -9,7 +9,7 @@ using Ferremundo.Security.Contracts.Navigation.Responses;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Ferremundo.Security.Client.Services;
+namespace Ferremundo.Security.Client.Clients.Navigation;
 
 public sealed class NavigationItemsClient : ExternalRestClientBase, INavigationItemsClient
 {

@@ -9,7 +9,7 @@ using Ferremundo.Security.Contracts.OAuthClients.Responses;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Ferremundo.Security.Client.Services;
+namespace Ferremundo.Security.Client.Clients.OAuthClients;
 
 public sealed class OAuthClientsClient : ExternalRestClientBase, IOAuthClientsClient
 {

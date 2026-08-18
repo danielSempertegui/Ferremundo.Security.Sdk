@@ -9,7 +9,7 @@ using Ferremundo.Security.Contracts.Permissions.Responses;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Ferremundo.Security.Client.Services;
+namespace Ferremundo.Security.Client.Clients.Permissions;
 
 public sealed class PermissionsClient : ExternalRestClientBase, IPermissionsClient
 {

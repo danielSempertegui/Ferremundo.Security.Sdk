@@ -2,7 +2,7 @@ using Ferremundo.Security.Contracts.Applications.Requests;
 using Ferremundo.Security.Contracts.Applications.Responses;
 using Ferremundo.Security.Contracts.Common;
 
-namespace Ferremundo.Security.Client.Services;
+namespace Ferremundo.Security.Client.Clients.Applications;
 
 public interface IApplicationsClient
 {

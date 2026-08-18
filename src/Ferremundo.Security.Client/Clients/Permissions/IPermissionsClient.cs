@@ -2,7 +2,7 @@ using Ferremundo.Security.Contracts.Common;
 using Ferremundo.Security.Contracts.Permissions.Requests;
 using Ferremundo.Security.Contracts.Permissions.Responses;
 
-namespace Ferremundo.Security.Client.Services;
+namespace Ferremundo.Security.Client.Clients.Permissions;
 
 public interface IPermissionsClient
 {

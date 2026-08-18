@@ -9,7 +9,7 @@ using Ferremundo.Security.Contracts.Sessions.Responses;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Ferremundo.Security.Client.Services;
+namespace Ferremundo.Security.Client.Clients.Sessions;
 
 public sealed class SecuritySessionsClient : ExternalRestClientBase, ISecuritySessionsClient
 {

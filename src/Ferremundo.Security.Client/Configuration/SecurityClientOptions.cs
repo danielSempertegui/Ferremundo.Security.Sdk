@@ -6,6 +6,12 @@ public sealed class SecurityClientOptions
 
     public string BaseUrl { get; init; } = string.Empty;
 
+    public string ClientId { get; init; } = string.Empty;
+
+    public string ClientSecret { get; init; } = string.Empty;
+
+    public int TokenCacheExpirationSkewSeconds { get; init; } = 60;
+
     public int TimeoutSeconds { get; init; } = 30;
 
     public int RetryCount { get; init; } = 2;

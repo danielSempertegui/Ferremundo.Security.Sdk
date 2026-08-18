@@ -2,7 +2,7 @@ using Ferremundo.Security.Contracts.Common;
 using Ferremundo.Security.Contracts.Roles.Requests;
 using Ferremundo.Security.Contracts.Roles.Responses;
 
-namespace Ferremundo.Security.Client.Services;
+namespace Ferremundo.Security.Client.Clients.Roles;
 
 public interface IRolesClient
 {

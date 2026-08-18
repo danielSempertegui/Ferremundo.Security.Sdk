@@ -2,7 +2,7 @@ using Ferremundo.Security.Contracts.Common;
 using Ferremundo.Security.Contracts.Sessions.Requests;
 using Ferremundo.Security.Contracts.Sessions.Responses;
 
-namespace Ferremundo.Security.Client.Services;
+namespace Ferremundo.Security.Client.Clients.Sessions;
 
 public interface ISecuritySessionsClient
 {

@@ -1,7 +1,7 @@
 using Ferremundo.Security.Contracts.Common;
 using Ferremundo.Security.Contracts.Me.Responses;
 
-namespace Ferremundo.Security.Client.Services;
+namespace Ferremundo.Security.Client.Clients.Me;
 
 public interface IMeClient
 {

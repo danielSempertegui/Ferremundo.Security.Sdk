@@ -2,7 +2,7 @@ using Ferremundo.Security.Contracts.Authentication.Requests;
 using Ferremundo.Security.Contracts.Authentication.Responses;
 using Ferremundo.Security.Contracts.Common;
 
-namespace Ferremundo.Security.Client.Services;
+namespace Ferremundo.Security.Client.Clients.Authentication;
 
 public interface IAuthenticationClient
 {
