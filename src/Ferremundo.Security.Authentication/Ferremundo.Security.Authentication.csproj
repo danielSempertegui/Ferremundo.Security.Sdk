@@ -7,6 +7,13 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>Ferremundo.Security.Authentication</PackageId>
+    <Version>1.0.0-alpha.1</Version>
+    <Authors>Ferremundo</Authors>
+    <Company>Ferremundo</Company>
+    <Description>Ferremundo.Security authentication and permission authorization helpers for ASP.NET Core APIs.</Description>
+    <RepositoryUrl>https://github.com/danielSempertegui/Ferremundo.Security.Sdk</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/danielSempertegui/Ferremundo.Security.Sdk</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
