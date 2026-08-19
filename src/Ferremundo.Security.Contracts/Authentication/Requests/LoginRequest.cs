@@ -6,5 +6,5 @@ public sealed class LoginRequest
 
     public string Password { get; init; } = string.Empty;
 
-    public string? ReturnUrl { get; init; }
+    public string ContinuationId { get; init; } = string.Empty;
 }

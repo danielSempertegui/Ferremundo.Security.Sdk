@@ -10,6 +10,8 @@ public sealed class OAuthClientResponse
 
     public string DisplayName { get; init; } = string.Empty;
 
+    public string? ApplicationCode { get; init; }
+
     public string ClientType { get; init; } = string.Empty;
 
     public bool RequiresPkce { get; init; }

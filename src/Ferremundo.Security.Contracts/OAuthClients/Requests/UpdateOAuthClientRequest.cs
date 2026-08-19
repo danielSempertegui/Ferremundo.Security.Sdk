@@ -8,6 +8,9 @@ public sealed class UpdateOAuthClientRequest
     [StringLength(200)]
     public string DisplayName { get; init; } = string.Empty;
 
+    [StringLength(100)]
+    public string? ApplicationCode { get; init; }
+
     public string? ClientSecret { get; init; }
 
     public bool AllowRefreshTokens { get; init; }

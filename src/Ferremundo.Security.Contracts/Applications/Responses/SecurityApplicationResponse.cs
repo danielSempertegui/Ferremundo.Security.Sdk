@@ -10,6 +10,14 @@ public sealed class SecurityApplicationResponse
 
     public string? Description { get; init; }
 
+    public string? LogoUrl { get; init; }
+
+    public string? OwnerName { get; init; }
+
+    public string? SupportUrl { get; init; }
+
+    public string? PrivacyUrl { get; init; }
+
     public string Status { get; init; } = string.Empty;
 
     public bool IsActive { get; init; }

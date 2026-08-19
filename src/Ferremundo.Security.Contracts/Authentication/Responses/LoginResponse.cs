@@ -8,5 +8,7 @@ public sealed class LoginResponse
 
     public string? Email { get; init; }
 
-    public string? ReturnUrl { get; init; }
+    public string ContinuationId { get; init; } = string.Empty;
+
+    public string ContinueUrl { get; init; } = string.Empty;
 }

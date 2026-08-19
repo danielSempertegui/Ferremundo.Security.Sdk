@@ -14,4 +14,16 @@ public sealed class CreateSecurityApplicationRequest
 
     [StringLength(1000)]
     public string? Description { get; init; }
+
+    [StringLength(1000)]
+    public string? LogoUrl { get; init; }
+
+    [StringLength(200)]
+    public string? OwnerName { get; init; }
+
+    [StringLength(1000)]
+    public string? SupportUrl { get; init; }
+
+    [StringLength(1000)]
+    public string? PrivacyUrl { get; init; }
 }

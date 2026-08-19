@@ -16,6 +16,9 @@ public sealed class CreateOAuthClientRequest
     [RegularExpression("web|api|worker", ErrorMessage = "ClientType must be web, api, or worker.")]
     public string ClientType { get; init; } = string.Empty;
 
+    [StringLength(100)]
+    public string? ApplicationCode { get; init; }
+
     public string? ClientSecret { get; init; }
 
     public bool AllowRefreshTokens { get; init; }

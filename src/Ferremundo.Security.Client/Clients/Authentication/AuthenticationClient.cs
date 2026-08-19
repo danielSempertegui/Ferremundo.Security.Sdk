@@ -30,6 +30,22 @@ public sealed class AuthenticationClient : ExternalRestClientBase, IAuthenticati
     {
     }
 
+    public async Task<ResponseBase<AuthenticationContinuationContextResponse>> GetContinuationContextAsync(
+        string continuationId,
+        CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(continuationId))
+        {
+            throw new ArgumentException("The continuation identifier is required.", nameof(continuationId));
+        }
+
+        return await GetAsync<ResponseBase<AuthenticationContinuationContextResponse>>(
+                   $"{AuthEndpoint}/continuations/{Uri.EscapeDataString(continuationId.Trim())}/context",
+                   cancellationToken)
+               ?? throw new InvalidOperationException(
+                   "The API response could not be deserialized to ResponseBase<AuthenticationContinuationContextResponse>.");
+    }
+
     public async Task<ResponseBase<LoginResponse>> LoginAsync(
         LoginRequest request,
         CancellationToken cancellationToken = default)
@@ -41,6 +57,22 @@ public sealed class AuthenticationClient : ExternalRestClientBase, IAuthenticati
                    request,
                    cancellationToken)
                ?? throw new InvalidOperationException("The API response could not be deserialized to ResponseBase<LoginResponse>.");
+    }
+
+    public async Task<ResponseBase<LogoutContinuationContextResponse>> GetLogoutContinuationContextAsync(
+        string continuationId,
+        CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(continuationId))
+        {
+            throw new ArgumentException("The continuation identifier is required.", nameof(continuationId));
+        }
+
+        return await GetAsync<ResponseBase<LogoutContinuationContextResponse>>(
+                   $"{AuthEndpoint}/logout-continuations/{Uri.EscapeDataString(continuationId.Trim())}/context",
+                   cancellationToken)
+               ?? throw new InvalidOperationException(
+                   "The API response could not be deserialized to ResponseBase<LogoutContinuationContextResponse>.");
     }
 
     public async Task<ResponseBase<LogoutResponse>> LogoutAsync(
