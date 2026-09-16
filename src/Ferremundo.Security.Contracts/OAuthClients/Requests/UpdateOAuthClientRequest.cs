@@ -11,8 +11,6 @@ public sealed class UpdateOAuthClientRequest
     [StringLength(100)]
     public string? ApplicationCode { get; init; }
 
-    public string? ClientSecret { get; init; }
-
     public bool AllowRefreshTokens { get; init; }
 
     public bool AllowTokenIntrospection { get; init; }
@@ -34,8 +32,4 @@ public sealed class UpdateOAuthClientRequest
     public IReadOnlyCollection<string> RedirectUris { get; init; } = [];
 
     public IReadOnlyCollection<string> PostLogoutRedirectUris { get; init; } = [];
-
-    public IReadOnlyCollection<string> AllowedScopes { get; init; } = [];
-
-    public bool IsActive { get; init; } = true;
 }

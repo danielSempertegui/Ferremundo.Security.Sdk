@@ -4,6 +4,8 @@ public sealed class OAuthScopeResponse
 {
     public Guid ScopeGuid { get; init; }
 
+    public string ApplicationCode { get; init; } = string.Empty;
+
     public string Name { get; init; } = string.Empty;
 
     public string DisplayName { get; init; } = string.Empty;

@@ -21,8 +21,14 @@ public static class SecurityAdministrationResponseCodes
     public const string OAuthScopeDeleted = "SECURITY_OAUTH_SCOPE_DELETED";
     public const string OAuthClientCreated = "SECURITY_OAUTH_CLIENT_CREATED";
     public const string OAuthClientUpdated = "SECURITY_OAUTH_CLIENT_UPDATED";
+    public const string OAuthClientActivated = "SECURITY_OAUTH_CLIENT_ACTIVATED";
+    public const string OAuthClientDeactivated = "SECURITY_OAUTH_CLIENT_DEACTIVATED";
     public const string OAuthClientDeleted = "SECURITY_OAUTH_CLIENT_DELETED";
+    public const string OAuthClientSecretRotated = "SECURITY_OAUTH_CLIENT_SECRET_ROTATED";
     public const string PermissionAssignedToOAuthClient = "SECURITY_PERMISSION_ASSIGNED_TO_OAUTH_CLIENT";
+    public const string PermissionRemovedFromOAuthClient = "SECURITY_PERMISSION_REMOVED_FROM_OAUTH_CLIENT";
+    public const string ScopeAssignedToOAuthClient = "SECURITY_SCOPE_ASSIGNED_TO_OAUTH_CLIENT";
+    public const string ScopeRemovedFromOAuthClient = "SECURITY_SCOPE_REMOVED_FROM_OAUTH_CLIENT";
     public const string SessionRevoked = "SECURITY_SESSION_REVOKED";
     public const string NavigationItemCreated = "SECURITY_NAVIGATION_ITEM_CREATED";
     public const string NavigationItemUpdated = "SECURITY_NAVIGATION_ITEM_UPDATED";

@@ -19,8 +19,6 @@ public sealed class CreateOAuthClientRequest
     [StringLength(100)]
     public string? ApplicationCode { get; init; }
 
-    public string? ClientSecret { get; init; }
-
     public bool AllowRefreshTokens { get; init; }
 
     public bool AllowTokenIntrospection { get; init; }
@@ -42,6 +40,4 @@ public sealed class CreateOAuthClientRequest
     public IReadOnlyCollection<string> RedirectUris { get; init; } = [];
 
     public IReadOnlyCollection<string> PostLogoutRedirectUris { get; init; } = [];
-
-    public IReadOnlyCollection<string> AllowedScopes { get; init; } = [];
 }

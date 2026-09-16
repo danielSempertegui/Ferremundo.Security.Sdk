@@ -5,6 +5,10 @@ namespace Ferremundo.Security.Contracts.OAuthScopes.Requests;
 public sealed class CreateOAuthScopeRequest
 {
     [Required]
+    [StringLength(100)]
+    public string ApplicationCode { get; init; } = string.Empty;
+
+    [Required]
     [StringLength(150)]
     public string Name { get; init; } = string.Empty;
 

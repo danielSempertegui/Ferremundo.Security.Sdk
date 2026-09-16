@@ -29,11 +29,11 @@ public sealed class OAuthClientsClient : ExternalRestClientBase, IOAuthClientsCl
         => await GetAsync<ResponseBase<IReadOnlyCollection<OAuthClientResponse>>>(OAuthClientsEndpoint, cancellationToken)
            ?? throw new InvalidOperationException("The API response could not be deserialized to ResponseBase<IReadOnlyCollection<OAuthClientResponse>>.");
 
-    public async Task<ResponseBase<OAuthClientResponse>> CreateAsync(CreateOAuthClientRequest request, CancellationToken cancellationToken = default)
+    public async Task<ResponseBase<OAuthClientCreationResponse>> CreateAsync(CreateOAuthClientRequest request, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request);
-        return await PostAsync<CreateOAuthClientRequest, ResponseBase<OAuthClientResponse>>(OAuthClientsEndpoint, request, cancellationToken)
-               ?? throw CreateEmptyResponseException();
+        return await PostAsync<CreateOAuthClientRequest, ResponseBase<OAuthClientCreationResponse>>(OAuthClientsEndpoint, request, cancellationToken)
+               ?? throw CreateEmptyResponseException<OAuthClientCreationResponse>();
     }
 
     public async Task<ResponseBase<OAuthClientResponse>> GetByClientIdAsync(string clientId, CancellationToken cancellationToken = default)
@@ -51,11 +51,40 @@ public sealed class OAuthClientsClient : ExternalRestClientBase, IOAuthClientsCl
                ?? throw CreateEmptyResponseException();
     }
 
+    public async Task<ResponseBase<OAuthClientResponse>> UpdateStatusAsync(
+        string clientId,
+        UpdateOAuthClientStatusRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(clientId);
+        ArgumentNullException.ThrowIfNull(request);
+
+        return await PutAsync<UpdateOAuthClientStatusRequest, ResponseBase<OAuthClientResponse>>(
+                   $"{OAuthClientsEndpoint}/{Uri.EscapeDataString(clientId)}/status",
+                   request,
+                   cancellationToken)
+               ?? throw CreateEmptyResponseException();
+    }
+
     public async Task<ResponseBase<OAuthClientResponse>> DeleteAsync(string clientId, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(clientId);
         return await DeleteAsync<ResponseBase<OAuthClientResponse>>($"{OAuthClientsEndpoint}/{Uri.EscapeDataString(clientId)}", cancellationToken)
                ?? throw CreateEmptyResponseException();
+    }
+
+    public async Task<ResponseBase<OAuthClientSecretRotationResponse>> RotateSecretAsync(
+        string clientId,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(clientId);
+
+        var endpoint = $"{OAuthClientsEndpoint}/{Uri.EscapeDataString(clientId)}/secret-rotations";
+        return await PostAsync<object, ResponseBase<OAuthClientSecretRotationResponse>>(
+                   endpoint,
+                   new object(),
+                   cancellationToken)
+               ?? throw CreateEmptyResponseException<OAuthClientSecretRotationResponse>();
     }
 
     public async Task<ResponseBase<OAuthClientResponse>> AssignPermissionAsync(
@@ -70,6 +99,53 @@ public sealed class OAuthClientsClient : ExternalRestClientBase, IOAuthClientsCl
                    $"{OAuthClientsEndpoint}/{Uri.EscapeDataString(clientId)}/permissions",
                    request,
                    cancellationToken)
+               ?? throw CreateEmptyResponseException();
+    }
+
+    public async Task<ResponseBase<OAuthClientResponse>> RemovePermissionAsync(
+        string clientId,
+        string applicationCode,
+        string permissionCode,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(clientId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(applicationCode);
+        ArgumentException.ThrowIfNullOrWhiteSpace(permissionCode);
+
+        var endpoint = $"{OAuthClientsEndpoint}/{Uri.EscapeDataString(clientId)}" +
+                       $"/permissions/{Uri.EscapeDataString(applicationCode)}/{Uri.EscapeDataString(permissionCode)}";
+
+        return await DeleteAsync<ResponseBase<OAuthClientResponse>>(endpoint, cancellationToken)
+               ?? throw CreateEmptyResponseException();
+    }
+
+    public async Task<ResponseBase<OAuthClientResponse>> AssignScopeAsync(
+        string clientId,
+        string scopeName,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(clientId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(scopeName);
+
+        var endpoint = $"{OAuthClientsEndpoint}/{Uri.EscapeDataString(clientId)}" +
+                       $"/scopes/{Uri.EscapeDataString(scopeName)}";
+
+        return await PutAsync<object, ResponseBase<OAuthClientResponse>>(endpoint, new object(), cancellationToken)
+               ?? throw CreateEmptyResponseException();
+    }
+
+    public async Task<ResponseBase<OAuthClientResponse>> RemoveScopeAsync(
+        string clientId,
+        string scopeName,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(clientId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(scopeName);
+
+        var endpoint = $"{OAuthClientsEndpoint}/{Uri.EscapeDataString(clientId)}" +
+                       $"/scopes/{Uri.EscapeDataString(scopeName)}";
+
+        return await DeleteAsync<ResponseBase<OAuthClientResponse>>(endpoint, cancellationToken)
                ?? throw CreateEmptyResponseException();
     }
 
@@ -90,4 +166,7 @@ public sealed class OAuthClientsClient : ExternalRestClientBase, IOAuthClientsCl
 
     private static InvalidOperationException CreateEmptyResponseException()
         => new("The API response could not be deserialized to ResponseBase<OAuthClientResponse>.");
+
+    private static InvalidOperationException CreateEmptyResponseException<TResponse>()
+        => new($"The API response could not be deserialized to ResponseBase<{typeof(TResponse).Name}>.");
 }
