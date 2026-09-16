@@ -7,6 +7,9 @@ public static class SecurityOAuthErrorCodes
     public const string ClientInactive = "SECURITY_OAUTH_CLIENT_INACTIVE";
     public const string InvalidClientType = "SECURITY_INVALID_OAUTH_CLIENT_TYPE";
     public const string ClientSecretNotSupported = "SECURITY_OAUTH_CLIENT_SECRET_NOT_SUPPORTED";
+    public const string ClientCapabilityRequired = "SECURITY_OAUTH_CLIENT_CAPABILITY_REQUIRED";
+    public const string ClientCapabilityNotSupported = "SECURITY_OAUTH_CLIENT_CAPABILITY_NOT_SUPPORTED";
+    public const string ClientCredentialsNotAllowed = "SECURITY_OAUTH_CLIENT_CREDENTIALS_NOT_ALLOWED";
     public const string ClientApplicationRequired = "SECURITY_OAUTH_CLIENT_APPLICATION_REQUIRED";
     public const string ClientApplicationInvalid = "SECURITY_OAUTH_CLIENT_APPLICATION_INVALID";
     public const string ClientIdRequired = "SECURITY_CLIENT_ID_REQUIRED";

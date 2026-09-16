@@ -21,6 +21,8 @@ public sealed class CreateOAuthClientRequest
 
     public bool AllowRefreshTokens { get; init; }
 
+    public bool AllowClientCredentials { get; init; }
+
     public bool AllowTokenIntrospection { get; init; }
 
     public bool AllowMultipleActiveUserSessions { get; init; } = true;
