@@ -1,4 +1,5 @@
 using Ferremundo.Integrations.Rest;
+using Ferremundo.Integrations.Rest.Abstractions.Authentication;
 using Ferremundo.Security.Client.Abstractions.Authentication;
 using Ferremundo.Security.Client.Abstractions.Tokens;
 using Ferremundo.Security.Client.Authentication;
@@ -33,6 +34,17 @@ public static class DependencyInjection
         services.TryAddScoped<ISecurityAccessTokenProvider, CurrentRequestAccessTokenProvider>();
         services.TryAddScoped<ISecurityClientCredentialsTokenProvider, SecurityClientCredentialsTokenProvider>();
         services.TryAddScoped<ISecurityClientAuthenticationStrategy, SecurityClientAuthenticationStrategy>();
+        services.AddKeyedScoped<IAccessTokenProvider>(KeyedService.AnyKey, (serviceProvider, key) =>
+        {
+            if (key is not string scope || string.IsNullOrWhiteSpace(scope))
+            {
+                throw new InvalidOperationException("A Security resource scope is required for client credentials.");
+            }
+
+            return new SecurityScopedAccessTokenProvider(
+                serviceProvider.GetRequiredService<ISecurityClientCredentialsTokenProvider>(),
+                scope);
+        });
 
         services
             .AddOptions<SecurityClientOptions>()
